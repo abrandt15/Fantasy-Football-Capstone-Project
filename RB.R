@@ -41,3 +41,10 @@ ggplot(rb, aes(x = ReceivingTargets, y = ReceivingYards)) +
 
 cor(rb$RushingAttempts, rb$RushingYards, method="spearman")
 cor(rb$ReceivingTargets, rb$ReceivingYards, method="spearman")
+
+## Linear Models
+
+rb_lm <- lm(FantasyPointsPPR ~ RushingYards, data = rb)
+rb_lm
+rb_lm_2 <- lm(FantasyPointsPPR ~ ReceivingYards, data = rb)
+rb_lm_2
