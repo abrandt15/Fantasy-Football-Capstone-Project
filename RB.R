@@ -37,5 +37,5 @@ ggplot(rb, aes(x = ReceivingTargets, y = ReceivingYards)) +
   geom_text(aes(label = Name))
 
 
-cor(rb$RushingAttempts, rb$RushingYards)
 cor(rb$RushingAttempts, rb$RushingYards, method="spearman")
+cor(rb$ReceivingTargets, rb$ReceivingYards, method="spearman")
