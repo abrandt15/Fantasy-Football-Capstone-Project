@@ -3,16 +3,18 @@ library(ggrepel)
 library(dplyr)
 
 rb <- read_csv("datasets/Fantasy-Football-Leaders-RB-2017.csv")
+adp <- read_csv("datasets/FantasyPros_2018_RB_ADP_Rankings.csv")
 
 head(rb)
 str(rb)
+str(adp)
 
 ## remove unwanted columns
 
 rb <- rb %>%
   select(Rank, Name, Team, Played, RushingAttempts, RushingYards, RushingYardsPerAttempt, RushingTouchdowns, ReceivingTargets, Receptions, ReceivingYards, ReceivingTouchdowns, FumblesLost, FantasyPointsPerGamePPR, FantasyPointsPPR)
 
-str(rb)
+adp <- adp %>% select(RB, Overall, Player, Team, AVG)
 
 ## remove any points less than zero from Fantasypointspergameppr 
 
