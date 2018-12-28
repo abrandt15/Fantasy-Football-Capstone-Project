@@ -91,7 +91,7 @@ ggplot(rb, aes(x = AVG, y = RushingYards)) +
 
 ```
 
-From the rushing yards plot, it appears the majority of the highest total yard players were all drafted with the top 25 spots.  There are few outliers, however, which could be due to a a few different situtations.  First of all, if a star player was injured for all of the previous season and is now healthy, then he could still be drafted in the top ten this year even if he didn't gain any rushing yards the previous season.  Also, a highly rated rookie that his expected to perform well over the course of the upcoming season could still be drafted in the first or second round of the fantasy draft.  There is a risk implementing this strategy since there are no pro level statistics available to analyse.  A league member who does draft a rookie is expecting them to perform as well in the pro level as they did on the collegiate level.  A great example of this scenario in the current year is Saquon Barkley.  He was one of the highest drafted running backs this year even though he was a rookie.
+From the rushing yards plot, it appears the majority of the highest total yard players (above the line) were all drafted within the top 25 spots.  There were a few outliers, however, which could be due to a couple different scenarios.  First of all, if a star player was injured for all of the previous season and is now healthy, then he could still be drafted in the top ten this year even if he didn't gain any rushing yards the previous season.  Also, a highly rated rookie that is expected to perform well over the course of the upcoming season could still be drafted in the first or second round of the fantasy draft.  There is a risk implementing this strategy since there are no pro level statistics available to analyse.  A league member who does draft a rookie is expecting them to perform as well at the pro level as they did on the collegiate level.  A great example of this scenario in the current year is Saquon Barkley.  He was one of the highest drafted running backs this year even though he was a rookie.
 
 
 
@@ -102,3 +102,5 @@ ggplot(rb, aes(x = AVG, y = ReceivingYards)) +
   geom_smooth()
 
 ```
+
+The receiving yards plot turned out to be a little more scattered.  While the players with the two highest receiving yards were still drafted in the top ten, the rest of the chart was little more difficult to predict.  There were several players with less receiving yards than average that were still drafted high.  It's important to remember that the scope of this project is only looking at the running back position, so it make sense that total rushing yards would be a little more correlated with draft position.  While there are still several running who catch a lot out of the backfield, this position is more focused on running the ball.  
