@@ -1,0 +1,104 @@
+---
+title: "Fantasy Football Capstone"
+author: "Alex Brandt"
+date: "December 28, 2018"
+output: html_document
+---
+
+
+##Introduction
+
+Fantasy football is a competitive game that is played by millions of friends and colleagues every football season.  The goal is to score more points that your opponent each week by putting together the best possible team of quarterbacks, running backs, wide receivers, tight ends, kickers, and a defense.  While there are several different formats, I will be using data from the PPR (Points per reception) format.
+
+##Problem Statement
+
+There are many different factors that can impact your final standing in your league, however, I will be focusing on starting the season off strong by having the best possible draft.  I will be using the final 2017 data from Fantasydata.com to try and predict which players have the best value.  This data can be used before the season by any potential fantasy league player trying to determine when to draft specific players in order to score the most points in any given week during the season.  While adding undervalued players through the waiver wire during the season is an important part to any winning team, this project is only focusing on the initial draft.  Will drafting Todd Gurley with the first overall pick help my team make the playoffs?  Should I draft Christian Mccaffrey in the first round, or wait until my second pick?  These are some of the questions, this project will attempt to answer.  
+
+I will be narrowing the scope of this project to focus specifically on the running back position.  Using the ADP (Average Draft Position) for the 2018 season, I will be able to test the model using the previous year’s data.
+
+##Data Story:
+
+```{r read_in, echo=FALSE}
+library(tidyverse)
+
+rb <- read_csv("datasets/Fantasy-Football-Leaders-RB-2017.csv")
+adp <- read_csv("datasets/FantasyPros_2018_RB_ADP_Rankings.csv")
+
+rb <- rb %>%
+  select(Rank, Name, Team, Played, RushingAttempts, RushingYards, RushingYardsPerAttempt, RushingTouchdowns, ReceivingTargets, Receptions, ReceivingYards, ReceivingTouchdowns, FumblesLost, FantasyPointsPerGamePPR, FantasyPointsPPR)
+
+adp <- adp %>% select(Player, AVG)
+
+rb <- inner_join(rb, adp, by = c("Name" = "Player"))
+
+```
+
+##Data Wrangling
+
+The structure of the dataset was relatively clean, however, I removed any players that had zero or less in the total fantasy points column.  These are players that didn’t play enough to generate any material statistics during the season.  These outliers are not helpful in trying to predict draft picks for the next season since they didn’t earn any points in the 2017 season.  Also, any player who scored negative fantasy points for the entire season, which could be an indication of incorrect data, was removed from the dataset.      
+
+I also removed a few columns from the dataset that were not relevant to predicting which player would score the most points.  Since the entire dataset consists of only running backs, I removed the position column since this was redundant.  I also removed the fumbles column, since only the fumbles lost column is needed when determining the amount points scored.  A player loses two points for each fumble lost.  A fumble that is recovered by the same team does not cause the player to lose any points.
+
+Finally, I joined the average draft position dataset with the main running back dataset, so that there was only one final dataset to work with when diving into model selction.
+
+##Data Visualization 
+
+   
+With the data cleaned up, the next steps involved taking a deeper dive into the data.  I decided to create a few different plots to see if anything jumped out right away.  The first  relationship I looked at was rushing attempts and rushing yards.  
+
+```{r Rushing attempts vs. Rushing Yards, echo=FALSE}
+
+library (ggplot2)
+
+ggplot(rb, aes(x = RushingAttempts, y = RushingYards)) +
+  #geom_label(aes(label = Name))
+  geom_point() +
+  geom_smooth()
+
+```
+
+As you can see in the plot, there appears to be a linear relationship between the number of rushing attempts a player has over the course of the season and the total number of yards that player rushes for.  We will test this theory later, but since more yards equals more points, it initially seems that we would want to focus on players that get the ball more over the course of the season.  The team each player is on can have a huge impact on this statistic because it depends on offense strategy that the team implements whether or not they are going to run the ball.  As you can see below, in 2017 it seems like Kareem Hunt (on the Kansas City ChiefsCheifs), Le’Veon Bell (Pittsburgh Steelers), Todd Gurley (Los Angeles Rams), and Jordan Howard (Chicago Bears) are among the top players with the most rushing attempts.  
+
+
+```{r Receiving Yards, echo=FALSE}
+ggplot(rb, aes(x = ReceivingTargets, y = ReceivingYards)) +
+  geom_point() +
+  geom_smooth()
+#geom_label(aes(label = Name))
+
+```
+
+Another important relationship to consider when trying to predict total fantasy points scored is between receiving targets and receiving yards.  In PPR, this is even more important since the player receives an extra point for every reception they make.  From the graph below, the first thing that jumped out was that this relationship was similar to the rushing attempts/rushing yards relationship in that the more receiving targets a player gets throughout the season the more yards they typically gain.  They both have a positive linear relationship.
+
+You can also see that there is a strong correlation between both these relationships, however, there is a slightly stronger one between rushing attempts and rushing yards.  This makes sense because typically the more opportunities a player gets to gain yards (both rushing and receiving), the higher chance there is that he will score more points at the end of the season.
+
+```{R Correlation}
+
+cor(rb$RushingAttempts, rb$RushingYards, method="spearman")
+cor(rb$ReceivingTargets, rb$ReceivingYards, method="spearman")
+
+```
+
+##Predicting Average Draft Position
+
+After deciding that these four statstics (rushing yards, receiving yards, rushing attempts, receiving attempts) were the most important in determining how many fantasy points a player will score by the end of the season, I then plotted each of these with the average draft position the following year to see which one of these was the best predictor of future draft position the following year.
+
+```{R Rushing Yards and Average Draft Position, echo=FALSE}
+
+ggplot(rb, aes(x = AVG, y = RushingYards)) +
+  geom_point() +
+  geom_smooth()
+
+```
+
+From the rushing yards plot, it appears the majority of the highest total yard players were all drafted with the top 25 spots.  There are few outliers, however, which could be due to a a few different situtations.  First of all, if a star player was injured for all of the previous season and is now healthy, then he could still be drafted in the top ten this year even if he didn't gain any rushing yards the previous season.  Also, a highly rated rookie that his expected to perform well over the course of the upcoming season could still be drafted in the first or second round of the fantasy draft.  There is a risk implementing this strategy since there are no pro level statistics available to analyse.  A league member who does draft a rookie is expecting them to perform as well in the pro level as they did on the collegiate level.  A great example of this scenario in the current year is Saquon Barkley.  He was one of the highest drafted running backs this year even though he was a rookie.
+
+
+
+```{r receiving yards, echo=FALSE}
+
+ggplot(rb, aes(x = AVG, y = ReceivingYards)) +
+  geom_point() +
+  geom_smooth()
+
+```
