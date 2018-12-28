@@ -31,15 +31,25 @@ ggplot(rb, aes(x=1, y = RushingAttempts)) +
   geom_point()
 
 ggplot(rb, aes(x = RushingAttempts, y = RushingYards)) +
-  geom_label(aes(label = Name)) 
-  #geom_label_repel(aes(label = Name))
+  #geom_label(aes(label = Name)) 
+  geom_point() +
+  geom_smooth()
 
 ggplot(rb, aes(x = ReceivingTargets, y = ReceivingYards)) +
-  #geom_point()
-geom_label(aes(label = Name)) 
+  geom_point() + geom_smooth()
+#geom_label(aes(label = Name)) 
 
-ggplot(rb, aes(x = ReceivingTargets, y = ReceivingYards)) +
-  geom_text(aes(label = Name))
+##Plots for AVG
+
+ggplot(rb, aes(x = AVG, y = ReceivingYards)) +
+  geom_point() +
+  geom_smooth()
+  #geom_text(aes(label = Name))
+
+
+ggplot(rb, aes(x = AVG, y = RushingYards)) +
+  geom_point () +
+  geom_smooth()
 
 
 cor(rb$RushingAttempts, rb$RushingYards, method="spearman")
