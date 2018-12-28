@@ -14,14 +14,17 @@ str(adp)
 rb <- rb %>%
   select(Rank, Name, Team, Played, RushingAttempts, RushingYards, RushingYardsPerAttempt, RushingTouchdowns, ReceivingTargets, Receptions, ReceivingYards, ReceivingTouchdowns, FumblesLost, FantasyPointsPerGamePPR, FantasyPointsPPR)
 
-adp <- adp %>% select(RB, Overall, Player, Team, AVG)
+adp <- adp %>% select(Player, AVG)
+
+rb <- inner_join(rb, adp, by = c("Name" = "Player"))
+
+##missing <- anti_join(rb, adp, by = c("Name" = "Player"))
 
 ## remove any points less than zero from Fantasypointspergameppr 
 
-rb <- rb %>% filter(FantasyPointsPerGamePPR != 0)
-
-View(rb)
-
+rb <- rb %>% filter(FantasyPointsPerGamePPR != 0) %>%
+    filter(FantasyPointsPerGamePPR > 0)
+    
 ## Plots to Understand
 
 ggplot(rb, aes(x=1, y = RushingAttempts)) +
@@ -45,6 +48,17 @@ cor(rb$ReceivingTargets, rb$ReceivingYards, method="spearman")
 ## Linear Models
 
 rb_lm <- lm(FantasyPointsPPR ~ RushingYards, data = rb)
-rb_lm
+summary(rb_lm)
 rb_lm_2 <- lm(FantasyPointsPPR ~ ReceivingYards, data = rb)
-rb_lm_2
+summary(rb_lm_2)
+
+#Prediciting Draft Position
+
+rb_lm_3 <- lm(AVG ~ RushingYards, data = rb)
+summary(rb_lm_3)
+rb_lm_4 <- lm(AVG ~ ReceivingYards, data = rb)
+summary(rb_lm_4)
+
+
+##anova
+
