@@ -83,7 +83,6 @@ summary(rb_lm_4)
 
 ##rb_lm_3_std <- standardize(ADP ~ RushingYards, data =rb)
 
-
 ##summary(rb_lm_3)
 ##anova
 

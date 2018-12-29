@@ -46,7 +46,7 @@ Finally, I joined the average draft position dataset with the main running back 
    
 With the data cleaned up, the next steps involved taking a deeper dive into the data.  I decided to create a few different plots to see if anything jumped out right away.  The first  relationship I looked at was rushing attempts and rushing yards.  
 
-```{r Rushing attempts vs. Rushing Yards, echo=FALSE}
+```{r Rushing, echo=FALSE, message=FALSE}
 
 library (ggplot2)
 
@@ -62,7 +62,7 @@ As you can see in the plot, there appears to be a linear relationship between th
 
 Another important relationship to consider when trying to predict total fantasy points scored is between receiving targets and receiving yards.  In PPR, this is even more important since the player receives an extra point for every reception they make.  From the graph below, the first thing that jumped out was that this relationship was similar to the rushing attempts/rushing yards relationship in that the more receiving targets a player gets throughout the season the more yards they typically gain.  They both have a positive linear relationship.
 
-```{r Receiving Yards, echo=FALSE}
+```{r Receiving_Yards, echo=FALSE, message=FALSE}
 ggplot(rb, aes(x = ReceivingTargets, y = ReceivingYards)) +
   geom_point() +
   geom_smooth()
@@ -82,7 +82,7 @@ cor(rb$ReceivingTargets, rb$ReceivingYards, method="spearman")
 
 After deciding that these four statstics (rushing yards, receiving yards, rushing attempts, receiving attempts) were the most important in determining how many fantasy points a player will score by the end of the season, I then plotted each of these with the average draft position the following year to see which one of these was the best predictor of future draft position the following year.
 
-```{R Rushing Yards and Average Draft Position, echo=FALSE}
+```{R Rushing_Yards_and_Average_Draft_Position, echo=FALSE, message=FALSE}
 
 ggplot(rb, aes(x = ADP, y = RushingYards)) +
   geom_point() +
@@ -94,7 +94,7 @@ From the rushing yards plot, it appears the majority of the highest total yard p
 
 
 
-```{r receiving yards, echo=FALSE}
+```{r receiving_yards, echo=FALSE, message=FALSE}
 
 ggplot(rb, aes(x = ADP, y = ReceivingYards)) +
   geom_point() +
@@ -104,7 +104,7 @@ ggplot(rb, aes(x = ADP, y = ReceivingYards)) +
 
 The receiving yards plot turned out to be a little more scattered.  While the players with the two highest receiving yards were still drafted in the top ten, the rest of the chart was little more difficult to predict.  There were several players with less receiving yards than average that were still drafted high.  It's important to remember that the scope of this project is only looking at the running back position, so it make sense that total rushing yards would be a little more correlated with draft position.  While there are still several running backs who catch a lot out of the backfield, this position is more focused on running the ball.  
 
-```{r rushing attempts, echo=FALSE}
+```{r rushing_attempts, echo=FALSE, message=FALSE}
 
 ggplot(rb, aes(x = ADP, y = RushingAttempts)) +
   geom_point() +
@@ -112,7 +112,7 @@ ggplot(rb, aes(x = ADP, y = RushingAttempts)) +
 
 ```
 
-```{r receiving targets, echo=FALSE}
+```{r receiving_targets, echo=FALSE, message=FALSE}
 
 ggplot(rb, aes(x = ADP, y = ReceivingTargets)) +
   geom_point() +
