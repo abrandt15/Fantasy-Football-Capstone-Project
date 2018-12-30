@@ -144,7 +144,7 @@ summary(rb_lm_4)
 
 ```
 
-I ran serveral different regression models, but finally ended up with rushing yards and receiving yards together to predict average draft position.
+I ran serveral different regression models, but finally ended up with rushing yards and receiving yards together to predict average draft position. 
 
 ``` {r LM5, echo=FALSE, message=FALSE}
 
@@ -157,7 +157,7 @@ summary(rb_lm_5)
 "add anova review"
 
 ``` {r Anova, echo=FALSE, message=FALSE}
-anova(rb_lm_3, rb_lm_4, rb_lm_5)
+anova(rb_lm_3, rb_lm_5)
 ```
 
 ##Ideas for Further Research

@@ -278,18 +278,20 @@ $(document).ready(function () {
 <pre><code>## Analysis of Variance Table
 ## 
 ## Model 1: ADP ~ RushingYards
-## Model 2: ADP ~ ReceivingYards
-## Model 3: ADP ~ RushingYards + ReceivingYards
-##   Res.Df   RSS Df Sum of Sq      F    Pr(&gt;F)    
-## 1     94 58139                                  
-## 2     94 79004  0    -20865                     
-## 3     93 50083  1     28921 53.704 8.357e-11 ***
+## Model 2: ADP ~ RushingYards + ReceivingYards
+## Model 3: ADP ~ RushingYards + ReceivingYards + RushingAttempts
+## Model 4: ADP ~ RushingYards + ReceivingYards + RushingAttempts + ReceivingTargets
+##   Res.Df   RSS Df Sum of Sq       F    Pr(&gt;F)    
+## 1     94 58139                                   
+## 2     93 50083  1    8056.2 14.7123 0.0002306 ***
+## 3     92 49860  1     222.9  0.4071 0.5250301    
+## 4     91 49830  1      29.8  0.0545 0.8159674    
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <div id="ideas-for-further-research" class="section level2">
 <h2>Ideas for Further Research</h2>
-<p>There is a lot of room to expand the scope of this project in further research. This project only analyzed one of the many positions in football. I think it would be a great idea to provide the same type of analysis for each position and then tie it all together to get the full picture of a complete fantasy team. It would also be cool to compare each position to see once is the most valuable and which positions to prioritze when drafting. This could help prove with analytics the idea that drafting a kicker in the third round is a terrible decision.</p>
+<p>There is a lot of room to expand the scope of this project in further research. This project only analyzed one of the many positions in football. I think it would be a great idea to provide the same type of analysis for each position and then tie it all together to get the full picture of a complete fantasy team. It would also be cool to compare each position to see which one is the most valuable and which positions to prioritze when drafting. With these analytics, you could help prove the common idea that drafting a kicker in the third round is a terrible decision.</p>
 </div>
 <div id="conclusion" class="section level2">
 <h2>Conclusion</h2>
