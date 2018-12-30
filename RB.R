@@ -57,7 +57,7 @@ ggplot(rb, aes(x = ADP, y = RushingAttempts)) +
   geom_point () +
   geom_smooth()
 
-ggplot(rb, aes(x = ADP, y = ReceivingTargets)) +
+kggplot(rb, aes(x = ADP, y = ReceivingTargets)) +
   geom_point() +
   geom_smooth()
 
@@ -74,15 +74,35 @@ summary(rb_lm)
 rb_lm_2 <- lm(FantasyPointsPPR ~ ReceivingYards, data = rb)
 summary(rb_lm_2)
 
-#Prediciting Draft Position
+#Average Draft Position
 
 rb_lm_3 <- lm(ADP ~ RushingYards, data = rb)
 summary(rb_lm_3)
+
 rb_lm_4 <- lm(ADP ~ ReceivingYards, data = rb)
 summary(rb_lm_4)
 
-##rb_lm_3_std <- standardize(ADP ~ RushingYards, data =rb)
+rb_lm_5 <- lm(ADP ~ RushingYards + ReceivingYards, data = rb)
+summary(rb_lm_5)
 
-##summary(rb_lm_3)
-##anova
+rb_lm_5_1 <- lm(ADP ~ RushingYards + ReceivingYards + RushingTouchdowns, data = rb)
+summary(rb_lm_5_1)
+
+rb_lm_6 <- lm(ADP ~ RushingYards + ReceivingYards + RushingAttempts, data = rb)
+summary(rb_lm_6)
+
+rb_lm_7 <- lm(ADP ~ RushingYards + ReceivingYards + RushingAttempts + ReceivingTargets, data = rb)
+summary(rb_lm_7)
+
+
+anova(rb_lm_3, rb_lm_5, rb_lm_6, rb_lm_7)
+
+##rb_lm_3_std <- standardize(ADP ~ RushingYards, data =rb)
+##scaled_rb <- scale(rb_predictors) %>%
+  ##as.data.frame()
+
+##rb_predictors <- rb %>% select(RushingYards, ReceivingYards, RushingAttempts, ReceivingTargets)
+##rb_predictors <- bind_cols(rb["ADP"], rb_predictors)
+##rb_lm_5_s <- lm(ADP ~ RushingYards + ReceivingYards + RushingAttempts, data = rb_predictors)
+##summary(rb_lm_5_s)
 
