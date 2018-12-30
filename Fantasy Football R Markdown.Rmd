@@ -157,7 +157,13 @@ summary(rb_lm_5)
 "add anova review"
 
 ``` {r Anova, echo=FALSE, message=FALSE}
-anova(rb_lm_3, rb_lm_5)
+
+rb_lm_6 <- lm(ADP ~ RushingYards + ReceivingYards + RushingAttempts, data = rb)
+
+rb_lm_7 <- lm(ADP ~ RushingYards + ReceivingYards + RushingAttempts + ReceivingTargets, data = rb)
+
+anova(rb_lm_3, rb_lm_5, rb_lm_6, rb_lm_7)
+
 ```
 
 ##Ideas for Further Research
