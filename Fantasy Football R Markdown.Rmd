@@ -1,7 +1,7 @@
 ---
-title: "Fantasy Football Capstone"
+title: "Fantasy Football Capstone Project"
 author: "Alex Brandt"
-date: "December 28, 2018"
+date: "December 30, 2018"
 output: html_document
 ---
 
@@ -18,7 +18,7 @@ I will be narrowing the scope of this project to focus specifically on the runni
 
 ##Data Story:
 
-```{r read_in, echo=FALSE}
+```{r read_in, echo=FALSE, message=FALSE}
 library(tidyverse)
 
 rb <- read_csv("datasets/Fantasy-Football-Leaders-RB-2017.csv")
@@ -57,10 +57,10 @@ ggplot(rb, aes(x = RushingAttempts, y = RushingYards)) +
 
 ```
 
-As you can see in the plot, there appears to be a linear relationship between the number of rushing attempts a player has over the course of the season and the total number of yards that player rushes for.  We will test this theory later, but since more yards equals more points, it initially seems that we would want to focus on players that get the ball more over the course of the season.  The team each player is on can have a huge impact on this statistic because it depends on offense strategy that the team implements whether or not they are going to run the ball.  As you can see below, in 2017 it seems like Kareem Hunt (on the Kansas City Chiefs), Le’Veon Bell (on the Pittsburgh Steelers), Todd Gurley (on the Los Angeles Rams), and Jordan Howard (on the Chicago Bears) are among the top players with the most rushing attempts.  
+As you can see in the plot, there appears to be a linear relationship between the number of rushing attempts a player has over the course of the season and the total number of yards that player rushes for.  We will test this theory later, but since more yards equals more points, it initially seems that we would want to focus on players that get the ball more over the course of the season.  The team each player is on can have a huge impact on this statistic because it depends on offense strategy that the team implements whether or not they are going to run the ball.  As you can see from the plot, in 2017 it seems like Kareem Hunt (on the Kansas City Chiefs), Le’Veon Bell (on the Pittsburgh Steelers), Todd Gurley (on the Los Angeles Rams), and Jordan Howard (on the Chicago Bears) are among the top players with the most rushing attempts.  
 
 
-Another important relationship to consider when trying to predict total fantasy points scored is between receiving targets and receiving yards.  In PPR, this is even more important since the player receives an extra point for every reception they make.  From the graph below, the first thing that jumped out was that this relationship was similar to the rushing attempts/rushing yards relationship in that the more receiving targets a player gets throughout the season the more yards they typically gain.  They both have a positive linear relationship.
+Another important relationship to consider when trying to predict total fantasy points scored is between receiving targets and receiving yards.  In PPR (Points Per Reception), this is even more important since the player receives an extra point for every reception they make.  From the graph below, the first thing that jumped out was that this relationship was similar to the rushing attempts and rushing yards relationship in that the more receiving targets a player gets throughout the season the more yards they typically gain.  They both have a positive linear relationship.
 
 ```{R, echo=FALSE, message=FALSE}
 
@@ -90,7 +90,7 @@ ggplot(rb, aes(x = ADP, y = RushingYards)) +
 
 ```
 
-From the rushing yards plot, it appears the majority of the highest total rushing yard players (above the line) were all drafted within the top 25 spots.  There were a few outliers, however, which could be due to a couple different scenarios.  First of all, if a star player was injured for all of the previous season and is now healthy, then he could still be drafted in the top ten this year even if he didn't gain any rushing yards the previous season.  Also, a highly rated rookie that is expected to perform well over the course of the upcoming season could still be drafted in the first or second round of the fantasy draft.  There is a risk implementing this strategy, however, since there are no pro level statistics available to analyse.  A league member who does draft a rookie is expecting them to perform as well at the pro level as they did on the collegiate level.  A great example of this scenario in the current year is Saquon Barkley.  He was one of the highest drafted running backs this year even though he was a rookie.
+From the rushing yards plot, it appears the majority of the highest total rushing yard players (above the line) were all drafted within the top 25 spots.  There were a few outliers, however, which could be due to a couple different scenarios.  First of all, if a star player was injured for all of the previous season and is now healthy, then he could still be drafted in the top ten this year, even if he didn't gain any rushing yards the previous season.  Also, a highly rated rookie that is expected to perform well over the course of the upcoming season could still be drafted in the first or second round of the fantasy draft.  There is a risk in implementing this strategy, however, since there are no pro level statistics available to analyse.  A league member who does draft a rookie is expecting them to perform as well at the pro level as they did on the collegiate level.  A great example of this scenario in the current year is Saquon Barkley.  He was one of the highest drafted running backs this year even though he was a rookie.
 
 
 
@@ -112,7 +112,7 @@ ggplot(rb, aes(x = ADP, y = RushingAttempts)) +
 
 ```
 
-The next plot I reviewed was the rushing attempts by a player and the average draft position.  This represented the total opportunites a player had to run the ball throughout the season.  While the total rushing attempts are still important to review, it appears this category is not as statically important as the total rushing yards.       
+The next plot I reviewed was the rushing attempts by a player and the average draft position.  This represented the total opportunites a player had to run the ball throughout the season.  While the total rushing attempts are still important to review, it appears this category is not as statically important as the total rushing yards.  Even though there is a strong positive linear relationship between rushing attempts and rushing yards, when it comes to actually predicting the average draft postion, the total rushing yards is more important.       
 
 
 ```{r receiving_targets, echo=FALSE, message=FALSE}
@@ -126,7 +126,7 @@ The last plot I decided to look at was the receiving targets.  This is the amoun
 
 ##Linear Models
 
-In order to determine which of these categories was the most staticially significant, I ran several diffent linear models to see which of these was the best predictor for the average draft position.  The first predictor I looked at was rushing yards.  
+In order to determine which of these categories was the most staticially significant, I ran several diffent linear models to see which of these was the best predictor for the average draft position.  The first predictor I looked at was rushing yards. In this model, the rushing yards are significant indictor of average draft position due to the low std. error and very low probablity that the null hypothesis would be true.  In other words, there is very little chance of this result happening just due to random variation and should be considered statitically significant.  This model also had a multiple R-squared of .512, which will be need to be compared to the other models. 
 
 ``` {r LM3, echo=FALSE, message=FALSE}
 
@@ -135,7 +135,7 @@ summary(rb_lm_3)
 
 ```
 
-The next model I reviewed was receiving yards.
+The next model I reviewed was receiving yards.  This model also had a low Pr value, but the multiple R-squared was also significantly lower at .3475.  Both these models only looked at only one categorie when predicting average draft position.  I decided to keep running models while adding categories to see if there was a better fit.  During this process I took into account the idea of overfiiting and tried to keep the focus on only a few categories. 
 
 ``` {r LM4, echo=FALSE, message=FALSE}
 
@@ -144,7 +144,7 @@ summary(rb_lm_4)
 
 ```
 
-I ran serveral different regression models, but finally ended up with rushing yards and receiving yards together to predict average draft position. 
+After running serveral other regression models, I finally ended up with rushing yards and receiving yards together to predict average draft position. 
 
 ``` {r LM5, echo=FALSE, message=FALSE}
 
@@ -154,7 +154,7 @@ summary(rb_lm_5)
 
 ```
 
-"add anova review"
+As you can see from the below anova review, the model with rushing yards and receiving yards together turned out to be the best fit.  There was the biggest reduction in the residual sum of squares (RSS) between the first and second model.  The Pr value was also very low and the most significantly signficant when compared to all four models.
 
 ``` {r Anova, echo=FALSE, message=FALSE}
 
@@ -172,6 +172,6 @@ There is a lot of room to expand the scope of this project in further research. 
 
 ##Conclusion
 
-While there will always be several factors to decide on in real time during the fantasy draft, it would be a good idea to develop a game plan of the top running backs you believe have the best chance to succeed.  While making this list of running backs, there should be a strong focus on his rushing and receiving yards from the previous season.  These categories from the previous year could be a strong indictor of future success and should be factored into your ranking.  The model with rushing and receiving yards could also be applied on future seasons.
+While there will always be several factors to decide on in real time during the fantasy draft, it would be a good idea to develop a game plan of the top running backs you believe have the best chance to succeed.  While making this list of running backs, there should be a strong focus on his rushing and receiving yards from the previous season.  These categories from the previous year could be a strong indictor of future success and should be factored into your ranking.  The model with rushing and receiving yards could also be applied on future seasons.  Hopefully with the knowledge, fantsy football league memebers will be better prepared for their future drafts.
 
 
