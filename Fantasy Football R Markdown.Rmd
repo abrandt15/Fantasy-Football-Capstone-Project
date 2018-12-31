@@ -125,7 +125,7 @@ ggplot(rb, aes(x = ADP, y = ReceivingTargets)) +
 
 The last plot I decided to look at was the receiving targets.  This is the amount of times the running back was targeted in passing game.  The receiving targets are similar to the rushing attempts in that each of these plots are more scattered and not as materially important as the total yards a player gains in determing the average draft position the following year.    
 
-##Linear Models
+##Linear Regression Models
 
 In order to determine which of these categories was the most staticially significant, I ran several diffent linear models to see which of these was the best predictor for the average draft position.  The first predictor I looked at was rushing yards. In this model, the rushing yards are significant indictor of average draft position due to the low std. error and very low probablity that the null hypothesis would be true.  In other words, there is very little chance of this result happening just due to random variation and should be considered statitically significant.  This model also had a multiple R-squared of .512, which will be need to be compared to the other models. 
 

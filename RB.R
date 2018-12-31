@@ -38,7 +38,8 @@ ggplot(rb, aes(x = RushingAttempts, y = RushingYards)) +
   geom_smooth()
 
 ggplot(rb, aes(x = ReceivingTargets, y = ReceivingYards)) +
-  geom_point() + geom_smooth()
+  geom_point() + geom_smooth() 
+
 #geom_label(aes(label = Name)) 
 
 ##Plots for ADP
