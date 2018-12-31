@@ -2,7 +2,9 @@
 title: "Fantasy Football Capstone Project"
 author: "Alex Brandt"
 date: "December 30, 2018"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 
