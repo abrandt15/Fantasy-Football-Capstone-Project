@@ -16,7 +16,6 @@ There are many different factors that can impact your final standing in your lea
 
 I will be narrowing the scope of this project to focus specifically on the running back position.  Using the ADP (Average Draft Position) for the 2018 season, I will be able to test the model using the previous year’s data.
 
-##Data Story:
 
 ```{r read_in, echo=FALSE, message=FALSE}
 library(tidyverse)
@@ -168,10 +167,10 @@ anova(rb_lm_3, rb_lm_5, rb_lm_6, rb_lm_7)
 
 ##Ideas for Further Research
 
-There is a lot of room to expand the scope of this project in further research.  This project only analyzed one of the many positions in football.  I think it would be a great idea to provide the same type of analysis for each position and then tie it all together to get the full picture of a complete fantasy team.  It would also be cool to compare each position to see which one is the most valuable and which positions to prioritze when drafting.  With these analytics, you could help prove the common idea that drafting a kicker in the third round is a terrible decision. 
+There is a lot of room to expand the scope of this project in further research.  This project only analyzed one of the many positions in football.  I think it would be a great idea to provide the same type of analysis for each position and then tie it all together to get the full picture of a complete fantasy team.  Each position could be compared to each other to see which one is the most valuable and which positions to prioritze when drafting.  With these analytics, you could help prove the common idea that drafting a kicker in the third round is a terrible decision. 
 
 ##Conclusion
 
-While there will always be several factors to decide on in real time during the fantasy draft, it would be a good idea to develop a game plan of the top running backs you believe have the best chance to succeed.  While making this list of running backs, there should be a strong focus on his rushing and receiving yards from the previous season.  These categories from the previous year could be a strong indictor of future success and should be factored into your ranking.  The model with rushing and receiving yards could also be applied on future seasons.  Hopefully with the knowledge, fantsy football league memebers will be better prepared for their future drafts.
+While there will always be several factors to decide on in real time during the fantasy draft, it would be a good idea to develop a  solid game plan of the top running backs you believe have the best chance to succeed before the acual draft.  While making this list of running backs, there should be a strong focus on his rushing and receiving yards from the previous season.  These categories from the previous year could be a strong indictor of future success and should be factored into your ranking.  The model with rushing and receiving yards could also be applied on future seasons.  Hopefully with this knowledge, fantsy football league memebers will be better prepared for their future drafts.
 
 

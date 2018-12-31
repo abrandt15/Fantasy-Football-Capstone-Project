@@ -138,9 +138,6 @@ $(document).ready(function () {
 <p>There are many different factors that can impact your final standing in your league, however, I will be focusing on starting the season off strong by having the best possible draft. I will be using the final 2017 data from Fantasydata.com to try and predict which players have the best value. This data can be used before the season by any potential fantasy league player trying to determine when to draft specific players in order to score the most points in any given week during the season. While adding undervalued players through the waiver wire during the season is an important part to any winning team, this project is only focusing on the initial draft. Will drafting Todd Gurley with the first overall pick help my team make the playoffs? Should I draft Christian Mccaffrey in the first round, or wait until my second pick? These are some of the questions this project will attempt to answer.</p>
 <p>I will be narrowing the scope of this project to focus specifically on the running back position. Using the ADP (Average Draft Position) for the 2018 season, I will be able to test the model using the previous year’s data.</p>
 </div>
-<div id="data-story" class="section level2">
-<h2>Data Story:</h2>
-</div>
 <div id="data-wrangling" class="section level2">
 <h2>Data Wrangling</h2>
 <p>The structure of the dataset was relatively clean, however, I removed any players that had zero in the total fantasy points column. These are players that didn’t play enough to generate any material statistics during the season. These outliers are not helpful in trying to predict draft picks for the next season since they didn’t earn any points in the 2017 season. Also, any player who scored negative fantasy points for the entire season, which could be an indication of incorrect data, was removed from the dataset.</p>
@@ -193,7 +190,7 @@ $(document).ready(function () {
 ## Residual standard error: 24.87 on 94 degrees of freedom
 ## Multiple R-squared:  0.5198, Adjusted R-squared:  0.5147 
 ## F-statistic: 101.8 on 1 and 94 DF,  p-value: &lt; 2.2e-16</code></pre>
-<p>The next model I reviewed was receiving yards. This model also had a low Pr value, but the multiple R-squared was also significantly lower at .339. Both these models only looked at one categories when predicting average draft position. I decided to keep running models while adding categories to see if there was a better fit. During this process I tried to keep in mind the idea of overfiiting and tried to keep the focus on only a few categories.</p>
+<p>The next model I reviewed was receiving yards. This model also had a low Pr value, but the multiple R-squared was also significantly lower at .3475. Both these models only looked at only one categorie when predicting average draft position. I decided to keep running models while adding categories to see if there was a better fit. During this process I took into account the idea of overfiiting and tried to keep the focus on only a few categories.</p>
 <pre><code>## 
 ## Call:
 ## lm(formula = ADP ~ ReceivingYards, data = rb)
@@ -232,7 +229,7 @@ $(document).ready(function () {
 ## Residual standard error: 23.21 on 93 degrees of freedom
 ## Multiple R-squared:  0.5863, Adjusted R-squared:  0.5774 
 ## F-statistic: 65.91 on 2 and 93 DF,  p-value: &lt; 2.2e-16</code></pre>
-<p>As you can see fro the below anova review, the model with rushing yards and receiving yards together turned out to be the best fit. There was the biggest reduction in the residual sum of squares (RSS) between the first and second model. The Pr value was also very low and the most significantly signficant when compared to all four models.</p>
+<p>As you can see from the below anova review, the model with rushing yards and receiving yards together turned out to be the best fit. There was the biggest reduction in the residual sum of squares (RSS) between the first and second model. The Pr value was also very low and the most significantly signficant when compared to all four models.</p>
 <pre><code>## Analysis of Variance Table
 ## 
 ## Model 1: ADP ~ RushingYards
@@ -253,7 +250,7 @@ $(document).ready(function () {
 </div>
 <div id="conclusion" class="section level2">
 <h2>Conclusion</h2>
-<p>While there will always be several factors to decide on in real time during the fantasy draft, it would be a good idea to develop a game plan of the top running backs you believe have the best chance to succeed. While making this list of running backs, there should be a strong focus on his rushing and receiving yards from the previous season. These categories from the previous year could be a strong indictor of future success and should be factored into your ranking. The model with rushing and receiving yards could also be applied on future seasons.</p>
+<p>While there will always be several factors to decide on in real time during the fantasy draft, it would be a good idea to develop a game plan of the top running backs you believe have the best chance to succeed. While making this list of running backs, there should be a strong focus on his rushing and receiving yards from the previous season. These categories from the previous year could be a strong indictor of future success and should be factored into your ranking. The model with rushing and receiving yards could also be applied on future seasons. Hopefully with the knowledge, fantsy football league memebers will be better prepared for their future drafts.</p>
 </div>
 
 
