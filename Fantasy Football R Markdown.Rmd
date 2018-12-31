@@ -10,13 +10,13 @@ output:
 
 ##Introduction
 
-Fantasy football is a competitive game that is played by millions of friends and colleagues every football season.  The goal is to score more points that your opponent each week by putting together the best possible team of quarterbacks, running backs, wide receivers, tight ends, kickers, and defense.  While there are several different formats, I will be using data from the PPR (Points per reception) format.
+Fantasy football is a competitive game that is played by millions of friends and colleagues every football season.  The goal is to score more points that your opponent each week by putting together the best possible team of quarterbacks, running backs, wide receivers, tight ends, kickers, and defense.  While there are several different formats, the data in this project uses the PPR (Points per reception) format.
 
 ##Problem Statement
 
-There are many different factors that can impact your final standing in your league, however, I will be focusing on starting the season off strong by having the best possible draft.  I will be using the final 2017 data from Fantasydata.com to try and predict which players have the best value.  This data can be used before the season by any potential fantasy league player trying to determine when to draft specific players in order to score the most points in any given week during the season.  While adding undervalued players through the waiver wire during the season is an important part to any winning team, this project is only focusing on the initial draft.  Will drafting Todd Gurley with the first overall pick help my team make the playoffs?  Should I draft Christian Mccaffrey in the first round, or wait until my second pick?  These are some of the questions this project will attempt to answer.  
+There are many different factors that can impact your final standing in your league, however, this project will be focusing on starting the season off strong by having the best possible draft.  The data is from the 2017 season and is pulled from Fantasydata.com.  The focus of this project will be to try and predict which players have the best value during the fantasy football draft.  This data can be used before the season by any potential fantasy league player trying to determine when to draft specific players in order to score the most points in any given week during the season.  While adding undervalued players through the waiver wire during the season is an important part to any winning team, this project is only focusing on the initial draft.  Will drafting Todd Gurley with the first overall pick help my team make the playoffs?  Should I draft Christian Mccaffrey in the first round, or wait until my second pick?  These are some of the questions this project will attempt to answer.  
 
-I will be narrowing the scope of this project to focus specifically on the running back position.  Using the ADP (Average Draft Position) for the 2018 season, I will be able to test the model using the previous year’s data.
+The scope of this project will be narrowed to focus specifically on the running back position.  
 
 
 ```{r read_in, echo=FALSE, message=FALSE}
@@ -36,16 +36,16 @@ rb <- inner_join(rb, adp, by = c("Name" = "Player"))
 
 ##Data Wrangling
 
-The structure of the dataset was relatively clean, however, I removed any players that had zero in the total fantasy points column.  These are players that didn’t play enough to generate any material statistics during the season.  These outliers are not helpful in trying to predict draft picks for the next season since they didn’t earn any points in the 2017 season.  Also, any player who scored negative fantasy points for the entire season, which could be an indication of incorrect data, was removed from the dataset.      
+The structure of the dataset was relatively clean, however, any players that had zero in the total fantasy points column were removed.  These are players that didn’t play enough to generate any material statistics during the season.  These outliers are not helpful in trying to predict draft picks for the next season, since they didn’t earn any points in the 2017 season.  Also, any player who scored negative fantasy points for the entire season, which could be an indication of incorrect data, was removed from the dataset.      
 
-I also removed a few columns from the dataset that were not relevant to predicting which player would score the most points.  Since the entire dataset consists of only running backs, I removed the position column since this was redundant.  I also removed the fumbles column, since only the fumbles lost column is needed when determining the amount points scored.  A player loses two points for each fumble lost.  A fumble that is recovered by the same team does not cause the player to lose any points.
+A few additional columns from the dataset that were not relevant to predicting which player would score the most points were also removed.  Since the entire dataset consists of only running backs, the position column was removed due to the fact that this was redundant.  Also, the fumbles column was removed, since only the fumbles lost column is needed when determining the amount points scored.  A player loses two points for each fumble lost.  A fumble that is recovered by the same team does not cause the player to lose any points.
 
-Finally, I joined the average draft position dataset with the main running back dataset, so that there was only one final dataset to work with when diving into plotting and modeling.
+Finally, the average draft position dataset was joined with with the main running back dataset, so that there was only one final dataset to work with when diving into plotting and modeling.
 
 ##Data Visualization 
 
    
-With the data cleaned up, the next steps involved taking a deeper dive into the data.  I decided to create a few different plots to see if anything jumped out right away.  The first  relationship I looked at was rushing attempts and rushing yards.  
+With the data cleaned up, the next steps involved taking a deeper dive into the data.  A few different plots were created to see if anything jumped out right away.  The first  relationship that was reviewed was the rushing attempts and rushing yards.  
 
 ```{r Rushing, echo=FALSE, message=FALSE}
 
@@ -81,7 +81,7 @@ cor(rb$ReceivingTargets, rb$ReceivingYards, method="spearman")
 
 ##Average Draft Position
 
-After deciding that these four statstics (rushing yards, receiving yards, rushing attempts, receiving attempts) were the most important in determining how many fantasy points a player will score by the end of the season, I then plotted each of these with the average draft position the following year to see which one of these was the best predictor of future draft position.
+After deciding that these four statstics (rushing yards, receiving yards, rushing attempts, receiving attempts) were the most important in determining how many fantasy points a player will score by the end of the season, plots of each of these with the average draft position the following year were created to see which one of these was the best predictor of future draft position.
 
 ```{R Rushing_Yards_and_Average_Draft_Position, echo=FALSE, message=FALSE}
 
@@ -91,7 +91,7 @@ ggplot(rb, aes(x = ADP, y = RushingYards)) +
 
 ```
 
-From the rushing yards plot, it appears the majority of the highest total rushing yard players (above the line) were all drafted within the top 25 spots.  There were a few outliers, however, which could be due to a couple different scenarios.  First of all, if a star player was injured for all of the previous season and is now healthy, then he could still be drafted in the top ten this year, even if he didn't gain any rushing yards the previous season.  Also, a highly rated rookie that is expected to perform well over the course of the upcoming season could still be drafted in the first or second round of the fantasy draft.  There is a risk in implementing this strategy, however, since there are no pro level statistics available to analyse.  A league member who does draft a rookie is expecting them to perform as well at the pro level as they did on the collegiate level.  A great example of this scenario in the current year is Saquon Barkley.  He was one of the highest drafted running backs this year even though he was a rookie.
+From the rushing yards plot, it appears the majority of the highest total rushing yard players (above the line) were all drafted within the top 25 spots.  There were a few outliers, however, which could be due to a couple different scenarios.  First of all, if a star player was injured for all of the previous season and is now healthy, then he could still be drafted in the top ten this year, even if he didn't gain any rushing yards the previous season.  Also, a highly rated rookie that is expected to perform well over the course of the upcoming season could still be drafted in the first or second round of the fantasy draft.  There is a risk in implementing this strategy, however, since there are no pro level statistics available to analyse.  A league member who does drafts a rookie is expecting them to perform as well at the pro level as they did on the collegiate level.  A great example of this scenario in the current year is Saquon Barkley.  He was one of the highest drafted running backs this year even though he was a rookie.
 
 
 
@@ -113,7 +113,7 @@ ggplot(rb, aes(x = ADP, y = RushingAttempts)) +
 
 ```
 
-The next plot I reviewed was the rushing attempts by a player and the average draft position.  This represented the total opportunites a player had to run the ball throughout the season.  While the total rushing attempts are still important to review, it appears this category is not as statically important as the total rushing yards.  Even though there is a strong positive linear relationship between rushing attempts and rushing yards, when it comes to actually predicting the average draft postion, the total rushing yards is more important.       
+The next plot that was reviewed was the rushing attempts by a player against the average draft position.  This represented the total opportunites a player had to run the ball throughout the season.  While the total rushing attempts are still important to review, it appears this category is not as statically important as the total rushing yards.  Even though there is a strong positive linear relationship between rushing attempts and rushing yards, when it comes to actually predicting the average draft postion, the total rushing yards is more important.       
 
 
 ```{r receiving_targets, echo=FALSE, message=FALSE}
@@ -123,11 +123,11 @@ ggplot(rb, aes(x = ADP, y = ReceivingTargets)) +
   geom_smooth()
 ```
 
-The last plot I decided to look at was the receiving targets.  This is the amount of times the running back was targeted in passing game.  The receiving targets are similar to the rushing attempts in that each of these plots are more scattered and not as materially important as the total yards a player gains in determing the average draft position the following year.    
+The last plot that was created was the receiving targets.  This is the amount of times the running back was targeted in passing game.  The receiving targets are similar to the rushing attempts in that each of these plots are more scattered and not as materially important as the total yards a player gains in determing the average draft position the following year.    
 
 ##Linear Regression Models
 
-In order to determine which of these categories was the most staticially significant, I ran several diffent linear models to see which of these was the best predictor for the average draft position.  The first predictor I looked at was rushing yards. In this model, the rushing yards are significant indictor of average draft position due to the low std. error and very low probablity that the null hypothesis would be true.  In other words, there is very little chance of this result happening just due to random variation and should be considered statitically significant.  This model also had a multiple R-squared of .512, which will be need to be compared to the other models. 
+In order to determine which of these categories was the most staticially significant, several diffent linear models were run to see which of these was the best predictor for the average draft position.  The first predictor that was reviewed was rushing yards. In this model, the rushing yards were a significant indictor of average draft position due to the low std. error and very low probablity that the null hypothesis would be true.  In other words, there is very little chance of this result happening just due to random variation and should be considered statitically significant.  This model also had a multiple R-squared of .512, which will be need to be compared to the other models. 
 
 ``` {r LM3, echo=FALSE, message=FALSE}
 
@@ -136,7 +136,7 @@ summary(rb_lm_3)
 
 ```
 
-The next model I reviewed was receiving yards.  This model also had a low Pr value, but the multiple R-squared was also significantly lower at .3475.  Both these models only looked at only one categorie when predicting average draft position.  I decided to keep running models while adding categories to see if there was a better fit.  During this process I took into account the idea of overfiiting and tried to keep the focus on only a few categories. 
+The next model that was reviewed was receiving yards.  This model also had a low Pr value, but the multiple R-squared was also significantly lower at .3475.  Both these models only looked at only one category when predicting average draft position.  More models were run with additional categories to see if there was a better fit.  During this process, the idea of overfiiting was taken into account and tried to keep the focus on only a few categories. 
 
 ``` {r LM4, echo=FALSE, message=FALSE}
 
@@ -145,7 +145,7 @@ summary(rb_lm_4)
 
 ```
 
-After running serveral other regression models, I finally ended up with rushing yards and receiving yards together to predict average draft position. 
+After running serveral other regression models, the model with rushing yards and receiving yards together to predict average draft position was run next. 
 
 ``` {r LM5, echo=FALSE, message=FALSE}
 
@@ -169,7 +169,7 @@ anova(rb_lm_3, rb_lm_5, rb_lm_6, rb_lm_7)
 
 ##Ideas for Further Research
 
-There is a lot of room to expand the scope of this project in further research.  This project only analyzed one of the many positions in football.  I think it would be a great idea to provide the same type of analysis for each position and then tie it all together to get the full picture of a complete fantasy team.  Each position could be compared to each other to see which one is the most valuable and which positions to prioritze when drafting.  With these analytics, you could help prove the common idea that drafting a kicker in the third round is a terrible decision. 
+There is a lot of room to expand the scope of this project in further research.  This project only analyzed one of the many positions in football.  It would be a great idea to provide the same type of analysis for each position and then tie it all together to get the full picture of a complete fantasy team.  Each position could be compared to each other to see which one is the most valuable and which positions to prioritze when drafting.  With these analytics, you could help prove the common idea that drafting a kicker in the third round is a terrible decision. 
 
 ##Conclusion
 
